@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>灵匣十二兽 · War3 合作 PVE 地图项目</title>
+<style>
+  :root{
+    --ink:#12141a; --ink2:#1a1d26; --panel:#20242f; --line:#323747;
+    --gold:#d9a441; --gold2:#f0c168; --tx:#e8e4d8; --tx2:#a8a394; --tx3:#78746a;
+    --fire:#e06a3f; --ice:#6db3d9; --poison:#8fc95a; --bolt:#e8c84a;
+    --ok:#7dc98f; --warn:#e0a53f;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--ink);color:var(--tx);font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;line-height:1.75}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  a{color:var(--gold2);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* ---------- Hero ---------- */
+  header{position:relative;overflow:hidden;border-bottom:1px solid var(--line);
+    background:radial-gradient(1200px 500px at 70% -10%, #2a2410 0%, transparent 60%),
+               radial-gradient(900px 400px at 10% 110%, #16202e 0%, transparent 55%), var(--ink)}
+  .hero{padding:84px 0 56px}
+  .badge-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+  .badge{font-size:13px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);color:var(--tx2);background:rgba(255,255,255,.03)}
+  .badge.gold{border-color:#6b5423;color:var(--gold2);background:rgba(217,164,65,.08)}
+  .badge.dim{color:var(--tx3)}
+  h1{font-size:clamp(34px,6vw,58px);letter-spacing:.04em;font-weight:800;line-height:1.25}
+  h1 .sub{display:block;font-size:clamp(15px,2vw,19px);font-weight:400;color:var(--tx2);letter-spacing:.14em;margin-top:14px}
+  .pitch{margin-top:26px;font-size:clamp(15px,2.2vw,19px);color:var(--tx2);max-width:760px}
+  .pitch b{color:var(--tx);font-weight:600}
+  .hero-actions{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap}
+  .btn{display:inline-block;padding:11px 26px;border-radius:10px;font-size:15px;border:1px solid #6b5423;background:linear-gradient(180deg,rgba(217,164,65,.16),rgba(217,164,65,.06));color:var(--gold2)}
+  .btn:hover{text-decoration:none;filter:brightness(1.12)}
+  .btn.ghost{border-color:var(--line);color:var(--tx2);background:none}
+
+  /* ---------- 数字条 ---------- */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:-28px auto 0;position:relative;z-index:2}
+  .stat{background:var(--ink2);padding:20px 14px;text-align:center}
+  .stat .n{font-size:clamp(24px,3.4vw,34px);font-weight:800;color:var(--gold2);font-variant-numeric:tabular-nums}
+  .stat .l{font-size:12.5px;color:var(--tx3);margin-top:4px}
+
+  /* ---------- 章节 ---------- */
+  section{padding:72px 0 8px}
+  .sec-tag{color:var(--gold);font-size:13px;letter-spacing:.3em;margin-bottom:10px}
+  h2{font-size:clamp(22px,3.4vw,30px);font-weight:700;letter-spacing:.05em;margin-bottom:8px}
+  .sec-lead{color:var(--tx2);max-width:780px;margin-bottom:34px;font-size:15.5px}
+
+  /* 玩法卡片 */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px 22px}
+  .card h3{font-size:17px;color:var(--gold2);margin-bottom:10px;letter-spacing:.04em}
+  .card p{font-size:14px;color:var(--tx2)}
+  .card .em{display:inline-block;font-size:12px;padding:2px 9px;border-radius:6px;margin-right:6px;margin-top:10px;background:rgba(255,255,255,.05);color:var(--tx3);border:1px solid var(--line)}
+  .el-fire{color:var(--fire)} .el-ice{color:var(--ice)} .el-poison{color:var(--poison)} .el-bolt{color:var(--bolt)}
+
+  /* 流程/时间线 */
+  .phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:8px}
+  .phase{background:var(--ink2);border:1px solid var(--line);border-radius:12px;padding:18px}
+  .phase .t{font-size:13px;color:var(--gold);letter-spacing:.12em;margin-bottom:6px}
+  .phase .d{font-size:14.5px;font-weight:600}
+  .phase .s{font-size:12.5px;color:var(--tx3);margin-top:6px}
+
+  /* 审计表 */
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{background:var(--ink2);color:var(--tx3);font-weight:600;text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);font-size:13px;letter-spacing:.06em}
+  td{padding:12px 14px;border-bottom:1px solid #262b37;color:var(--tx2);vertical-align:top}
+  td:first-child{color:var(--tx);white-space:nowrap}
+  .tbl{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+
+  /* 状态框 */
+  .status-box{border:1px solid #4a3d1e;background:rgba(217,164,65,.06);border-radius:14px;padding:22px 24px;margin-bottom:18px}
+  .status-box h3{color:var(--warn);font-size:16px;margin-bottom:8px}
+  .status-box p{font-size:14px;color:var(--tx2)}
+  .ok-box{border-color:#2c4a35;background:rgba(125,201,143,.06)}
+  .ok-box h3{color:var(--ok)}
+
+  /* 全景图 */
+  .pano{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;margin-top:6px}
+  .pano svg{display:block;width:100%;height:auto}
+  .pano-note{font-size:12.5px;color:var(--tx3);margin-top:10px}
+
+  footer{margin-top:80px;border-top:1px solid var(--line);padding:36px 0 48px;color:var(--tx3);font-size:13.5px}
+  footer .cols{display:flex;gap:40px;flex-wrap:wrap;justify-content:space-between}
+  .kv{margin-top:10px}
+  .kv b{color:var(--tx2);font-weight:600}
+  @media (max-width:640px){ .hero{padding:60px 0 48px} section{padding:56px 0 8px} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hero">
+    <div class="badge-row">
+      <span class="badge gold">v0.4.1 设计基线</span>
+      <span class="badge">1–4 人合作 PVE</span>
+      <span class="badge">Warcraft III · KK 平台</span>
+      <span class="badge">YDWE / KKWE 实施</span>
+    </div>
+    <h1>灵匣十二兽<span class="sub">ELEMENTAL ZODIAC CHEST · 全图打箱子 × 动态怪潮 × 元素 DoT 构筑 × 走位 Boss 战</span></h1>
+    <p class="pitch">
+      所有玩家共用<b>农民底座</b>，唯一主动技能是无伤害闪烁——成长全部来自<b>神兽与灵植赋予的被动元素精通</b>。
+      伤害由普攻白字、元素附伤、自动光环、DoT 与元素反应组成。九档难度、50–90 分钟单局、4–7 场 Boss 战，
+      箱子/怪物/神兽/灵植在 256×256 开放战场上持续随机刷新并随世界时间升级。
+    </p>
+    <div class="hero-actions">
+      <a class="btn" href="#pillars">看玩法支柱</a>
+      <a class="btn ghost" href="#panorama">开发全景图</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="stats">
+    <div class="stat"><div class="n">63</div><div class="l">机器可读数据表</div></div>
+    <div class="stat"><div class="n">9</div><div class="l">难度档 · 50–90 分钟</div></div>
+    <div class="stat"><div class="n">7×28</div><div class="l">Boss × 技能招式</div></div>
+    <div class="stat"><div class="n">144</div><div class="l">装备生成组合</div></div>
+    <div class="stat"><div class="n">14+5</div><div class="l">基础流派 + 反应包</div></div>
+    <div class="stat"><div class="n">1–4</div><div class="l">人数 · 生命锁定缩放</div></div>
+  </div>
+</div>
+
+<section id="pillars">
+  <div class="wrap">
+    <div class="sec-tag">GAMEPLAY PILLARS</div>
+    <h2>玩法支柱</h2>
+    <p class="sec-lead">设计目标是"低操作门槛 + 高构筑深度"：会走位就能玩，理解元素反应才能上高难。</p>
+    <div class="grid">
+      <div class="card">
+        <h3>元素精通 · 四阶成长</h3>
+        <p><span class="el-fire">火</span> <span class="el-ice">冰</span> <span class="el-poison">毒</span> <span class="el-bolt">电</span> 四系各有
+        <b>入灵 → 共鸣 → 显圣 → 神相</b>四阶。十二生肖分组提供 1–3 阶，四种灵植（烬心莲 / 月露兰 / 幽瘴藤 / 雷鸣竹）参与第 4 阶。</p>
+        <div><span class="em">6 双元素反应</span><span class="em">4 三元素</span><span class="em">1 四元素</span><span class="em">4 出血催化</span></div>
+      </div>
+      <div class="card">
+        <h3>无封顶数值路线</h3>
+        <p>力/敏/智各 50 开局，30 级共 <b>1750 点</b>自由分配；狩印装备按合法击杀三维成长，三合一精确继承。
+        动态分段整数账本精确保留——难 1 典型终局数千主属性，难 9 约 10 万且<b>不封顶</b>。</p>
+        <div><span class="em">6 槽 8 级装备</span><span class="em">18 底材 × 8 品质</span></div>
+      </div>
+      <div class="card">
+        <h3>全图随机生态</h3>
+        <p>256×256 开放战场含 <b>256 个逻辑刷新格</b>（每局启用约 180–220）与 8 个随机 Boss 场；
+        怪群常态 120–310、短时 180–420 容量，有限攻击位与高难前段渐入规则。</p>
+        <div><span class="em">5 种宝箱掉落 profile</span><span class="em">九阶时间成长</span></div>
+      </div>
+      <div class="card">
+        <h3>Boss 牌组时间线</h3>
+        <p>每位 Boss <b>150 秒牌组</b>调度，超时判负且不掉装备；28 招主参数（伤害/阶段/冷却/预警/几何/状态/反制）首轮数值齐备，
+        九难度用技能密度与预警下限规则缩放。</p>
+        <div><span class="em">7 Boss × 4 行为密度带 = 28 条时间线</span></div>
+      </div>
+      <div class="card">
+        <h3>构筑自由度</h3>
+        <p>近战 / 600 码远程、单重 / 双重 / 三重攻击形态、副击无 proc 边界清晰；
+        <b>14 条基础流派</b>（近战光环、远程元素、物理、生存）+ <b>5 个进阶反应包</b>。</p>
+        <div><span class="em">攻击形态由装备驱动</span><span class="em">平铺词条</span></div>
+      </div>
+      <div class="card">
+        <h3>器灵助手 · 友好体验</h3>
+        <p>器灵负责拾取与<b>安全自动合成</b>，个人八区仓库；首局前 9 分钟真实事件动作式引导；
+        AFK / 断线 / 重连 / 永久离开共 <b>7 条同步连续性策略</b>。</p>
+        <div><span class="em">多人合格贡献者个人奖励</span><span class="em">无尾刀归属</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="balance">
+  <div class="wrap">
+    <div class="sec-tag">AUDITABLE BALANCE</div>
+    <h2>数值可审计，不是拍脑袋</h2>
+    <p class="sec-lead">全部平衡数据落在 63 张 CSV 数据表中（Boss 数值、掉落、怪群、装备、难度曲线均可独立替换），
+    由 <b>audit_balance.py</b> 静态审计阶段自动检查——这是"设计完成"与"设计可信"之间的桥。</p>
+    <div class="tbl">
+      <table>
+        <tr><th>审计维度</th><th>检查内容</th></tr>
+        <tr><td>掉落</td><td>引用完整性、品质期望、五箱型保证路径可生成性</td></tr>
+        <tr><td>怪群</td><td>180–420 短时容量、攻击位上限、渐入规则</td></tr>
+        <tr><td>Boss</td><td>7 Boss × 4 密度带共 28 条 150 秒时间线、换相与条件反应分流</td></tr>
+        <tr><td>装备</td><td>144 个生成组合（18 底材 × 8 品质）可生成性证明</td></tr>
+        <tr><td>连续性</td><td>AFK / 恢复 / 断线 / 重连 / 永久离开 / 全员离开 7 条策略</td></tr>
+        <tr><td>成长</td><td>神兽 1–4 人生命锁定缩放、关键 TTK 检查点</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="foundation">
+  <div class="wrap">
+    <div class="sec-tag">AI DEVELOPMENT FOUNDATION</div>
+    <h2>背后是一套 AI 地图开发基座</h2>
+    <p class="sec-lead">本项目由 <b>war3-map-development</b> 技能包驱动产出——它让 AI 保持完整工程闭环，
+    并用证据区分"写完源码 / 构建成功 / 可玩 / 多人通过 / 已发布"。</p>
+    <div class="phases">
+      <div class="phase"><div class="t">知识体系</div><div class="d">19 篇参考规范</div><div class="s">架构 · 物编 · 触发/脚本 · UI · 多人同步 · KKAPI 商业化 · 测试发布 · 诊断</div></div>
+      <div class="phase"><div class="t">自动化 CLI</div><div class="d">9 个可插拔插件</div><div class="s">init / doctor / validate / generate / manifest / plan / gate / run-stage / pipeline</div></div>
+      <div class="phase"><div class="t">证据门禁</div><div class="d">声明分级</div><div class="s">每次运行写入 evidence/：日志、输出哈希、门禁记录</div></div>
+      <div class="phase"><div class="t">Starter 资产</div><div class="d">3 个垂直切片</div><div class="s">防守图样例 · 多人转盘/八向冲击波 · KK 商业化事务与失败恢复</div></div>
+    </div>
+
+    <div style="margin-top:26px" class="status-box ok-box">
+      <h3>当前真实状态（如实声明）</h3>
+      <p>本页描述的是<b>设计完整、静态验证的编辑器实施包（模式 C）</b>：玩法设计、机器可读配置、技术规格、
+      编辑器动作单与验收矩阵已齐备并通过项目校验门禁。<b>尚未生成 .w3x/.w3m，尚未实机可玩</b>——
+      这是刻意的诚实边界：没有构建、重开、多人与 KK Maptest 证据，就不声称"可玩"。</p>
+    </div>
+    <div class="status-box">
+      <h3>通往可玩的 P0 路线（当前阻塞）</h3>
+      <p>① Windows 编辑器执行桥（AI 操作 WE/YDWE 落地对象/地形/触发）② 可构建的 LNI/w3x2lni 基线 ③ 运行时能力探针地图 ④ Lua/JASS 自动验证环境。
+      下一里程碑：1 英雄 + 1 八向冲击波 + 1 动态光环 + 1 模型变身 + 1 同步转盘 + 商业化三件套 + 存档 + 3 波 1 Boss 的端到端验收地图。</p>
+    </div>
+  </div>
+</section>
+
+<section id="panorama">
+  <div class="wrap">
+    <div class="sec-tag">PANORAMA</div>
+    <h2>开发基座全景图</h2>
+    <p class="sec-lead">AI 入口 → 技能路由 → 知识体系 → 可插拔自动化 → Starter 资产 → 项目契约 → 声明式工具链 → 证据门禁 → 真实 YDWE / Warcraft III / KK 平台验证边界。</p>
+    <div class="pano">
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="auto" viewBox="0 0 1800 1500" role="img" aria-labelledby="title desc">
+  <title id="title">War3 AI 地图开发基座全景图</title>
+  <desc id="desc">展示 AI 入口、技能路由、知识体系、可插拔自动化、Starter 资产、项目契约、声明式工具链、证据门禁和真实 YDWE、Warcraft III、KK 平台验证边界。</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64716a"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#24775b"/>
+    </marker>
+    <style>
+      text {
+        font-family: Inter, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+        letter-spacing: 0;
+      }
+      .canvas { fill: #f6f8f5; }
+      .header { fill: #17241f; }
+      .header-accent { fill: #e2b54b; }
+      .title { fill: #ffffff; font-size: 32px; font-weight: 500; }
+      .subtitle { fill: #cbd7d0; font-size: 17px; font-weight: 400; }
+      .eyebrow { fill: #718078; font-size: 13px; font-weight: 500; }
+      .section-title { fill: #17241f; font-size: 19px; font-weight: 500; }
+      .node-title { fill: #17241f; font-size: 16px; font-weight: 500; }
+      .node-text { fill: #526159; font-size: 13px; font-weight: 400; }
+      .small { fill: #64716a; font-size: 12px; font-weight: 400; }
+      .mono { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+      .white { fill: #ffffff; }
+      .muted-white { fill: #d2ddd7; }
+      .connector {
+        fill: none;
+        stroke: #64716a;
+        stroke-width: 2;
+        marker-end: url(#arrow);
+        vector-effect: non-scaling-stroke;
+      }
+      .connector-soft {
+        fill: none;
+        stroke: #aab5af;
+        stroke-width: 1.5;
+        vector-effect: non-scaling-stroke;
+      }
+      .connector-green {
+        fill: none;
+        stroke: #24775b;
+        stroke-width: 2.5;
+        marker-end: url(#arrow-green);
+        vector-effect: non-scaling-stroke;
+      }
+      .dashed { stroke-dasharray: 7 7; }
+      .node {
+        stroke: #c9d2cc;
+        stroke-width: 1.5;
+        rx: 8;
+        vector-effect: non-scaling-stroke;
+      }
+      .neutral { fill: #ffffff; }
+      .green { fill: #e3f1ea; stroke: #88b9a5; }
+      .blue { fill: #e3eef5; stroke: #8ab2ca; }
+      .amber { fill: #f8ecd8; stroke: #d2aa69; }
+      .violet { fill: #eee9f5; stroke: #ad9ac7; }
+      .red { fill: #f6e3df; stroke: #cf9189; }
+      .dark-node { fill: #23372f; stroke: #355247; }
+      .lane-rule { stroke: #c9d2cc; stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+      .state-ok { fill: #24775b; }
+      .state-pending { fill: #ad6a15; }
+    </style>
+  </defs>
+
+  <rect class="canvas" x="0" y="0" width="1800" height="1500"/>
+
+  <!-- Header -->
+  <rect class="header" x="0" y="0" width="1800" height="112"/>
+  <rect class="header-accent" x="60" y="30" width="8" height="52"/>
+  <text class="title" x="88" y="57">War3 AI 地图开发基座</text>
+  <text class="subtitle" x="88" y="89">从需求、源码和资源到构建、实机、多人、KK 发布的可插拔工程闭环</text>
+  <text class="eyebrow muted-white" x="1740" y="50" text-anchor="end">PROJECT PANORAMA</text>
+  <text class="small muted-white mono" x="1740" y="77" text-anchor="end">war3-map-development</text>
+
+  <!-- Non-negotiable invariants -->
+  <text class="eyebrow" x="60" y="145">全局不变量</text>
+  <line class="lane-rule" x1="60" y1="158" x2="1740" y2="158"/>
+  <text class="node-text" x="60" y="181">保护唯一源地图</text>
+  <text class="node-text" x="315" y="181">锁定客户端 / 编辑器 / 脚本 / 平台版本</text>
+  <text class="node-text" x="760" y="181">本地异步状态不得直接改同步玩法</text>
+  <text class="node-text" x="1185" y="181">平台 API 必须经过 Adapter</text>
+  <text class="node-text" x="1535" y="181">证据不足不宣称可玩</text>
+  <circle cx="286" cy="176" r="3" fill="#c9d2cc"/>
+  <circle cx="730" cy="176" r="3" fill="#c9d2cc"/>
+  <circle cx="1155" cy="176" r="3" fill="#c9d2cc"/>
+  <circle cx="1505" cy="176" r="3" fill="#c9d2cc"/>
+
+  <!-- Inputs -->
+  <text class="eyebrow" x="60" y="225">使用入口</text>
+  <rect class="node neutral" x="60" y="242" width="500" height="72"/>
+  <text class="node-title" x="84" y="271">支持 Skill 的 AI</text>
+  <text class="node-text" x="84" y="295">直接加载 $war3-map-development，按任务路由读取资料</text>
+
+  <rect class="node neutral" x="650" y="242" width="500" height="72"/>
+  <text class="node-title" x="674" y="271">普通 AI / 知识附件模式</text>
+  <text class="node-text" x="674" y="295">先读 SKILL.md，再按阶段执行能力探测与交付门禁</text>
+
+  <rect class="node neutral" x="1240" y="242" width="500" height="72"/>
+  <text class="node-title" x="1264" y="271">开发者 / 调试者</text>
+  <text class="node-text" x="1264" y="295">使用 war3tool、Starter、Schema 与证据记录定位问题</text>
+
+  <!-- Connectors into skill -->
+  <path class="connector" d="M 310 314 V 340 H 640 V 360"/>
+  <path class="connector" d="M 900 314 V 360"/>
+  <path class="connector" d="M 1490 314 V 340 H 1160 V 360"/>
+
+  <!-- Core router -->
+  <rect class="node dark-node" x="420" y="360" width="960" height="118"/>
+  <text class="eyebrow muted-white" x="452" y="390">AI OPERATING CONTRACT</text>
+  <text class="white" x="452" y="422" style="font-size:23px;font-weight:500">SKILL.md：能力探测、知识路由、工作流门禁、完成声明</text>
+  <text class="node-text muted-white" x="452" y="451">模式 A · 编辑器闭环</text>
+  <text class="node-text muted-white" x="760" y="451">模式 B · Source-first / LNI 闭环</text>
+  <text class="node-text muted-white" x="1115" y="451">模式 C · 文本实施包</text>
+
+  <!-- Fan-out connectors -->
+  <path class="connector" d="M 640 478 V 508 H 310 V 540"/>
+  <path class="connector-green" d="M 900 478 V 540"/>
+  <path class="connector" d="M 1160 478 V 508 H 1490 V 540"/>
+
+  <!-- Three planes -->
+  <text class="eyebrow" x="60" y="536">01 / KNOWLEDGE PLANE</text>
+  <text class="section-title" x="60" y="563">知识与决策层</text>
+  <line class="lane-rule" x1="60" y1="576" x2="560" y2="576"/>
+
+  <rect class="node neutral" x="60" y="596" width="500" height="46"/>
+  <text class="node-title" x="80" y="625">基础与架构</text>
+  <text class="small" x="540" y="625" text-anchor="end">WE / YDWE · conventions · workflow</text>
+  <rect class="node neutral" x="60" y="654" width="500" height="46"/>
+  <text class="node-title" x="80" y="683">玩法与脚本</text>
+  <text class="small" x="540" y="683" text-anchor="end">balance · GUI / JASS / Lua · MUI</text>
+  <rect class="node neutral" x="60" y="712" width="500" height="46"/>
+  <text class="node-title" x="80" y="741">UI、技能与模型</text>
+  <text class="small" x="540" y="741" text-anchor="end">Frame · shockwave · aura · MDX / MDL</text>
+  <rect class="node neutral" x="60" y="770" width="500" height="46"/>
+  <text class="node-title" x="80" y="799">KK、商业化与同步安全</text>
+  <text class="small" x="540" y="799" text-anchor="end">save · commerce · transaction · anti-cheat</text>
+  <rect class="node neutral" x="60" y="828" width="500" height="46"/>
+  <text class="node-title" x="80" y="857">测试、诊断与交付证据</text>
+  <text class="small" x="540" y="857" text-anchor="end">review · release · diagnostics · sources</text>
+
+  <text class="eyebrow" x="650" y="536">02 / AUTOMATION PLANE</text>
+  <text class="section-title" x="650" y="563">可插拔自动化层</text>
+  <line class="lane-rule" x1="650" y1="576" x2="1150" y2="576"/>
+  <rect class="node blue" x="650" y="596" width="500" height="58"/>
+  <text class="node-title mono" x="674" y="622">scripts/war3tool.py</text>
+  <text class="small" x="674" y="643">PluginRegistry · API v1 · 唯一 ID / command / version</text>
+
+  <rect class="node green" x="650" y="670" width="150" height="54"/>
+  <text class="node-title mono" x="725" y="703" text-anchor="middle">init</text>
+  <rect class="node green" x="825" y="670" width="150" height="54"/>
+  <text class="node-title mono" x="900" y="703" text-anchor="middle">doctor</text>
+  <rect class="node green" x="1000" y="670" width="150" height="54"/>
+  <text class="node-title mono" x="1075" y="703" text-anchor="middle">validate</text>
+
+  <rect class="node green" x="650" y="738" width="150" height="54"/>
+  <text class="node-title mono" x="725" y="771" text-anchor="middle">generate</text>
+  <rect class="node green" x="825" y="738" width="150" height="54"/>
+  <text class="node-title mono" x="900" y="771" text-anchor="middle">manifest</text>
+  <rect class="node green" x="1000" y="738" width="150" height="54"/>
+  <text class="node-title mono" x="1075" y="771" text-anchor="middle">plan</text>
+
+  <rect class="node violet" x="650" y="806" width="150" height="54"/>
+  <text class="node-title mono" x="725" y="839" text-anchor="middle">run-stage</text>
+  <rect class="node violet" x="825" y="806" width="150" height="54"/>
+  <text class="node-title mono" x="900" y="839" text-anchor="middle">pipeline</text>
+  <rect class="node violet" x="1000" y="806" width="150" height="54"/>
+  <text class="node-title mono" x="1075" y="839" text-anchor="middle">gate</text>
+
+  <text class="eyebrow" x="1240" y="536">03 / ASSET PLANE</text>
+  <text class="section-title" x="1240" y="563">模板与纵向样例层</text>
+  <line class="lane-rule" x1="1240" y1="576" x2="1740" y2="576"/>
+
+  <rect class="node amber" x="1240" y="596" width="500" height="58"/>
+  <text class="node-title" x="1264" y="621">Templates + Schemas</text>
+  <text class="small" x="1264" y="643">需求、物编、Rawcode、资源、模型、测试、证据、工具链</text>
+  <rect class="node neutral" x="1240" y="670" width="500" height="62"/>
+  <text class="node-title" x="1264" y="697">Defense Map Starter</text>
+  <text class="small" x="1264" y="718">波次、胜负、数据驱动、Mock Engine、KK Adapter</text>
+  <rect class="node neutral" x="1240" y="744" width="500" height="62"/>
+  <text class="node-title" x="1264" y="771">Custom Systems Starter</text>
+  <text class="small" x="1264" y="792">同步转盘、八方向冲击波、GUI 蓝图、对象数据</text>
+  <rect class="node neutral" x="1240" y="818" width="500" height="62"/>
+  <text class="node-title" x="1264" y="845">Commerce Starter</text>
+  <text class="small" x="1264" y="866">永久权益、消耗事务、付费抽奖、失败恢复、审计</text>
+
+  <!-- Planes converge -->
+  <path class="connector-soft" d="M 310 874 V 910 H 430"/>
+  <path class="connector-green" d="M 900 860 V 918"/>
+  <path class="connector-soft" d="M 1490 880 V 910 H 1370"/>
+
+  <!-- Project contract -->
+  <text class="eyebrow" x="60" y="930">SOURCE PROJECT CONTRACT</text>
+  <rect class="node dark-node" x="60" y="948" width="300" height="92"/>
+  <text class="white mono" x="84" y="980" style="font-size:17px;font-weight:500">war3project.json</text>
+  <text class="small muted-white" x="84" y="1005">版本 · 模式 · 平台 · 路径</text>
+  <text class="small muted-white" x="84" y="1025">显式选择 toolchain plugin</text>
+
+  <rect class="node blue" x="390" y="948" width="660" height="92"/>
+  <text class="node-title" x="414" y="978">结构化事实源</text>
+  <text class="node-text mono" x="414" y="1004">src/   data/   resources/source/   map/   docs/</text>
+  <text class="small" x="414" y="1025">Rawcode、对象表、脚本、导入清单、需求、编辑器动作单</text>
+
+  <rect class="node amber" x="1080" y="948" width="660" height="92"/>
+  <text class="node-title" x="1104" y="978">可再生成输出与证据</text>
+  <text class="node-text mono" x="1104" y="1004">src/generated/   build/   dist/   evidence/</text>
+  <text class="small" x="1104" y="1025">生成文件不污染源码指纹；日志、哈希、运行记录可追溯</text>
+
+  <path class="connector" d="M 360 994 H 390"/>
+  <path class="connector" d="M 1050 994 H 1080"/>
+
+  <!-- Declarative pipeline -->
+  <text class="eyebrow" x="60" y="1090">DECLARATIVE TOOLCHAIN PLUGIN · 默认 dry-run · 无 shell · 超时 · 依赖失败即停</text>
+  <line class="lane-rule" x1="60" y1="1104" x2="1740" y2="1104"/>
+
+  <rect class="node green" x="60" y="1124" width="230" height="64"/>
+  <text class="node-title" x="175" y="1151" text-anchor="middle">Generate</text>
+  <text class="small" x="175" y="1173" text-anchor="middle">注册表 / 物编动作 / 导入计划</text>
+  <rect class="node neutral" x="350" y="1124" width="230" height="64"/>
+  <text class="node-title" x="465" y="1151" text-anchor="middle">Compile</text>
+  <text class="small" x="465" y="1173" text-anchor="middle">Lua / JASS / 预处理</text>
+  <rect class="node neutral" x="640" y="1124" width="230" height="64"/>
+  <text class="node-title" x="755" y="1151" text-anchor="middle">Pack</text>
+  <text class="small" x="755" y="1173" text-anchor="middle">LNI / w3x2lni / .w3x</text>
+  <rect class="node neutral" x="930" y="1124" width="230" height="64"/>
+  <text class="node-title" x="1045" y="1151" text-anchor="middle">Inspect</text>
+  <text class="small" x="1045" y="1173" text-anchor="middle">编辑器打开 / 保存 / 重开</text>
+  <rect class="node neutral" x="1220" y="1124" width="230" height="64"/>
+  <text class="node-title" x="1335" y="1151" text-anchor="middle">Test</text>
+  <text class="small" x="1335" y="1173" text-anchor="middle">客户端 / 回放 / 多人同步</text>
+  <rect class="node neutral" x="1510" y="1124" width="230" height="64"/>
+  <text class="node-title" x="1625" y="1151" text-anchor="middle">Release</text>
+  <text class="small" x="1625" y="1173" text-anchor="middle">KK Maptest / 审核 / 回滚</text>
+
+  <path class="connector" d="M 290 1156 H 350"/>
+  <path class="connector" d="M 580 1156 H 640"/>
+  <path class="connector" d="M 870 1156 H 930"/>
+  <path class="connector" d="M 1160 1156 H 1220"/>
+  <path class="connector" d="M 1450 1156 H 1510"/>
+
+  <!-- Evidence ladder -->
+  <text class="eyebrow" x="60" y="1240">COMPLETION EVIDENCE GATES · 低等级证据不能推导高等级完成</text>
+  <line class="lane-rule" x1="60" y1="1254" x2="1740" y2="1254"/>
+
+  <rect class="node green" x="60" y="1274" width="230" height="58"/>
+  <circle class="state-ok" cx="86" cy="1303" r="7"/>
+  <text class="node-title" x="105" y="1300">Static</text>
+  <text class="small" x="105" y="1320">当前已验证</text>
+  <rect class="node amber" x="350" y="1274" width="230" height="58"/>
+  <circle class="state-pending" cx="376" cy="1303" r="7"/>
+  <text class="node-title" x="395" y="1300">Build</text>
+  <text class="small" x="395" y="1320">真实地图包</text>
+  <rect class="node amber" x="640" y="1274" width="230" height="58"/>
+  <circle class="state-pending" cx="666" cy="1303" r="7"/>
+  <text class="node-title" x="685" y="1300">Editor</text>
+  <text class="small" x="685" y="1320">打开、保存、重开</text>
+  <rect class="node amber" x="930" y="1274" width="230" height="58"/>
+  <circle class="state-pending" cx="956" cy="1303" r="7"/>
+  <text class="node-title" x="975" y="1300">Runtime</text>
+  <text class="small" x="975" y="1320">客户端实机</text>
+  <rect class="node amber" x="1220" y="1274" width="230" height="58"/>
+  <circle class="state-pending" cx="1246" cy="1303" r="7"/>
+  <text class="node-title" x="1265" y="1300">Multiplayer</text>
+  <text class="small" x="1265" y="1320">双客户端同步</text>
+  <rect class="node amber" x="1510" y="1274" width="230" height="58"/>
+  <circle class="state-pending" cx="1536" cy="1303" r="7"/>
+  <text class="node-title" x="1555" y="1300">Platform</text>
+  <text class="small" x="1555" y="1320">KK 真实环境</text>
+
+  <!-- Target environment boundary -->
+  <path class="connector-soft dashed" d="M 60 1373 H 1740"/>
+  <text class="eyebrow" x="60" y="1364">TARGET ENVIRONMENT ADAPTERS · 锁定目标安装、API 与成功基线后才可设为 READY</text>
+
+  <rect class="node red" x="60" y="1392" width="300" height="66"/>
+  <text class="node-title" x="210" y="1420" text-anchor="middle">YDWE / KKWE Bridge</text>
+  <text class="small" x="210" y="1442" text-anchor="middle">物编 · 地形 · 触发器 · 保存</text>
+  <rect class="node red" x="405" y="1392" width="300" height="66"/>
+  <text class="node-title" x="555" y="1420" text-anchor="middle">LNI / Build Tools</text>
+  <text class="small" x="555" y="1442" text-anchor="middle">编译 · 打包 · 地图哈希</text>
+  <rect class="node red" x="750" y="1392" width="300" height="66"/>
+  <text class="node-title" x="900" y="1420" text-anchor="middle">Warcraft III Client</text>
+  <text class="small" x="900" y="1442" text-anchor="middle">加载 · 胜负 · 性能 · 截图</text>
+  <rect class="node red" x="1095" y="1392" width="300" height="66"/>
+  <text class="node-title" x="1245" y="1420" text-anchor="middle">Multiplayer Harness</text>
+  <text class="small" x="1245" y="1442" text-anchor="middle">固定输入 · 状态哈希 · 掉线</text>
+  <rect class="node red" x="1440" y="1392" width="300" height="66"/>
+  <text class="node-title" x="1590" y="1420" text-anchor="middle">KK Platform Adapter</text>
+  <text class="small" x="1590" y="1442" text-anchor="middle">存档 · 商城 · Maptest · 发布</text>
+
+  <text class="small" x="60" y="1482">当前状态：静态自动化已验证；真实构建、编辑器、客户端、多人和平台层仍由目标环境插件解锁。</text>
+  <text class="small mono" x="1740" y="1482" text-anchor="end">static ≠ build ≠ playable ≠ published</text>
+</svg>
+    </div>
+    <p class="pano-note">全景图亦可直接打开：war3-map-development/assets/project-panorama.svg</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap cols">
+    <div>
+      <div>灵匣十二兽 · elemental-zodiac-chest</div>
+      <div class="kv"><b>版本</b> v0.4.1（G2 系统设计与数据契约完成，等待 G3 垂直切片）</div>
+      <div class="kv"><b>目标平台</b> KK · YDWE/KKWE · Lua/GUI 混合后端</div>
+      <div class="kv"><b>状态声明</b> 静态验证的编辑器实施包（尚不可玩）</div>
+    </div>
+    <div>
+      <div>本页为项目分享主页（单文件 · 零依赖）</div>
+      <div class="kv"><b>源仓库</b> github.com/lufubinGit/war3-map-development（私有）</div>
+      <div class="kv"><b>生成日期</b> 2026-09</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
