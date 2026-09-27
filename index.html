@@ -18,66 +18,96 @@
   a{color:var(--gold2);text-decoration:none}
   a:hover{text-decoration:underline}
 
-  /* ---------- Hero ---------- */
+  nav{position:sticky;top:0;z-index:50;background:rgba(18,20,26,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;gap:4px;overflow-x:auto;padding:0 24px}
+  nav a{flex:none;font-size:13.5px;color:var(--tx2);padding:13px 12px;letter-spacing:.05em}
+  nav a:hover{color:var(--gold2);text-decoration:none}
+
   header{position:relative;overflow:hidden;border-bottom:1px solid var(--line);
     background:radial-gradient(1200px 500px at 70% -10%, #2a2410 0%, transparent 60%),
                radial-gradient(900px 400px at 10% 110%, #16202e 0%, transparent 55%), var(--ink)}
-  .hero{padding:84px 0 56px}
+  .hero{padding:80px 0 56px}
   .badge-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
   .badge{font-size:13px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);color:var(--tx2);background:rgba(255,255,255,.03)}
   .badge.gold{border-color:#6b5423;color:var(--gold2);background:rgba(217,164,65,.08)}
-  .badge.dim{color:var(--tx3)}
   h1{font-size:clamp(34px,6vw,58px);letter-spacing:.04em;font-weight:800;line-height:1.25}
   h1 .sub{display:block;font-size:clamp(15px,2vw,19px);font-weight:400;color:var(--tx2);letter-spacing:.14em;margin-top:14px}
-  .pitch{margin-top:26px;font-size:clamp(15px,2.2vw,19px);color:var(--tx2);max-width:760px}
+  .pitch{margin-top:26px;font-size:clamp(15px,2.2vw,18px);color:var(--tx2);max-width:780px}
   .pitch b{color:var(--tx);font-weight:600}
   .hero-actions{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap}
   .btn{display:inline-block;padding:11px 26px;border-radius:10px;font-size:15px;border:1px solid #6b5423;background:linear-gradient(180deg,rgba(217,164,65,.16),rgba(217,164,65,.06));color:var(--gold2)}
   .btn:hover{text-decoration:none;filter:brightness(1.12)}
   .btn.ghost{border-color:var(--line);color:var(--tx2);background:none}
 
-  /* ---------- 数字条 ---------- */
   .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:-28px auto 0;position:relative;z-index:2}
   .stat{background:var(--ink2);padding:20px 14px;text-align:center}
   .stat .n{font-size:clamp(24px,3.4vw,34px);font-weight:800;color:var(--gold2);font-variant-numeric:tabular-nums}
   .stat .l{font-size:12.5px;color:var(--tx3);margin-top:4px}
 
-  /* ---------- 章节 ---------- */
-  section{padding:72px 0 8px}
+  section{padding:70px 0 8px}
   .sec-tag{color:var(--gold);font-size:13px;letter-spacing:.3em;margin-bottom:10px}
   h2{font-size:clamp(22px,3.4vw,30px);font-weight:700;letter-spacing:.05em;margin-bottom:8px}
-  .sec-lead{color:var(--tx2);max-width:780px;margin-bottom:34px;font-size:15.5px}
+  .sec-lead{color:var(--tx2);max-width:800px;margin-bottom:32px;font-size:15.5px}
+  .sec-lead b{color:var(--tx)}
 
-  /* 玩法卡片 */
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+  .grid.sm{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
   .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px 22px}
   .card h3{font-size:17px;color:var(--gold2);margin-bottom:10px;letter-spacing:.04em}
   .card p{font-size:14px;color:var(--tx2)}
   .card .em{display:inline-block;font-size:12px;padding:2px 9px;border-radius:6px;margin-right:6px;margin-top:10px;background:rgba(255,255,255,.05);color:var(--tx3);border:1px solid var(--line)}
   .el-fire{color:var(--fire)} .el-ice{color:var(--ice)} .el-poison{color:var(--poison)} .el-bolt{color:var(--bolt)}
 
-  /* 流程/时间线 */
-  .phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:8px}
-  .phase{background:var(--ink2);border:1px solid var(--line);border-radius:12px;padding:18px}
-  .phase .t{font-size:13px;color:var(--gold);letter-spacing:.12em;margin-bottom:6px}
-  .phase .d{font-size:14.5px;font-weight:600}
-  .phase .s{font-size:12.5px;color:var(--tx3);margin-top:6px}
+  .journey{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+  .stop{background:var(--ink2);border:1px solid var(--line);border-radius:12px;padding:16px 16px;position:relative}
+  .stop .no{position:absolute;top:14px;right:14px;font-size:12px;color:var(--tx3);font-variant-numeric:tabular-nums}
+  .stop .t{font-size:15.5px;font-weight:700;color:var(--gold2)}
+  .stop .d{font-size:13px;color:var(--tx2);margin-top:4px}
+  .stop .s{font-size:12px;color:var(--tx3);margin-top:4px}
 
-  /* 审计表 */
+  .rgroup{margin-bottom:26px}
+  .rgroup h3{font-size:16px;margin-bottom:12px;color:var(--tx)}
+  .rgroup h3 span{font-size:12.5px;color:var(--tx3);font-weight:400;margin-left:10px}
+  .rt{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:10px}
+  .rx{display:flex;gap:12px;align-items:baseline;background:var(--ink2);border:1px solid var(--line);border-radius:10px;padding:12px 16px}
+  .rx .nm{flex:none;font-weight:700;font-size:14.5px;color:var(--gold2);min-width:5.5em}
+  .rx .combo{flex:none;font-size:13px;letter-spacing:.08em}
+  .rx .mech{font-size:12.5px;color:var(--tx2)}
+
+  .zodiac .card p{margin-top:2px}
+  .zodiac .tiers{margin-top:12px;font-size:13px;color:var(--tx3)}
+  .zodiac .tiers b{color:var(--tx2);font-weight:600}
+
   table{width:100%;border-collapse:collapse;font-size:14px}
   th{background:var(--ink2);color:var(--tx3);font-weight:600;text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);font-size:13px;letter-spacing:.06em}
-  td{padding:12px 14px;border-bottom:1px solid #262b37;color:var(--tx2);vertical-align:top}
+  td{padding:11px 14px;border-bottom:1px solid #262b37;color:var(--tx2);vertical-align:top}
   td:first-child{color:var(--tx);white-space:nowrap}
   .tbl{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  tr:last-child td{border-bottom:none}
+  .num{font-variant-numeric:tabular-nums}
 
-  /* 状态框 */
+  .bosses{counter-reset:step;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .boss .t{display:flex;align-items:baseline;gap:10px}
+  .boss .t::before{counter-increment:step;content:counter(step,decimal-leading-zero);font-size:13px;color:var(--tx3);font-variant-numeric:tabular-nums}
+
   .status-box{border:1px solid #4a3d1e;background:rgba(217,164,65,.06);border-radius:14px;padding:22px 24px;margin-bottom:18px}
   .status-box h3{color:var(--warn);font-size:16px;margin-bottom:8px}
   .status-box p{font-size:14px;color:var(--tx2)}
   .ok-box{border-color:#2c4a35;background:rgba(125,201,143,.06)}
   .ok-box h3{color:var(--ok)}
 
-  /* 全景图 */
+  .demo{border:1px solid #6b5423;border-radius:16px;padding:34px 30px;
+    background:radial-gradient(600px 240px at 20% 0%, rgba(217,164,65,.12), transparent 65%), var(--panel)}
+  .demo h3{font-size:22px;color:var(--gold2);margin-bottom:10px}
+  .demo p{font-size:14.5px;color:var(--tx2);max-width:720px}
+  .demo .btn{margin-top:22px}
+
+  .phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:8px}
+  .phase{background:var(--ink2);border:1px solid var(--line);border-radius:12px;padding:18px}
+  .phase .t{font-size:13px;color:var(--gold);letter-spacing:.12em;margin-bottom:6px}
+  .phase .d{font-size:14.5px;font-weight:600}
+  .phase .s{font-size:12.5px;color:var(--tx3);margin-top:6px}
+
   .pano{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;margin-top:6px}
   .pano svg{display:block;width:100%;height:auto}
   .pano-note{font-size:12.5px;color:var(--tx3);margin-top:10px}
@@ -86,15 +116,21 @@
   footer .cols{display:flex;gap:40px;flex-wrap:wrap;justify-content:space-between}
   .kv{margin-top:10px}
   .kv b{color:var(--tx2);font-weight:600}
-  @media (max-width:640px){ .hero{padding:60px 0 48px} section{padding:56px 0 8px} }
+  @media (max-width:640px){ .hero{padding:56px 0 48px} section{padding:54px 0 8px} .demo{padding:26px 20px} }
 </style>
 </head>
 <body>
 
+<nav><div class="wrap">
+  <a href="#pillars">玩法支柱</a><a href="#journey">一局旅程</a><a href="#elements">元素反应</a>
+  <a href="#builds">流派</a><a href="#difficulty">难度</a><a href="#bosses">Boss</a>
+  <a href="#balance">数值体系</a><a href="#demo">在线试玩</a><a href="#foundation">AI 基座</a><a href="#panorama">全景图</a>
+</div></nav>
+
 <header>
   <div class="wrap hero">
     <div class="badge-row">
-      <span class="badge gold">v0.4.1 设计基线</span>
+      <span class="badge gold">v0.4.1 设计基线 · 63 张数值表</span>
       <span class="badge">1–4 人合作 PVE</span>
       <span class="badge">Warcraft III · KK 平台</span>
       <span class="badge">YDWE / KKWE 实施</span>
@@ -106,22 +142,40 @@
       箱子/怪物/神兽/灵植在 256×256 开放战场上持续随机刷新并随世界时间升级。
     </p>
     <div class="hero-actions">
-      <a class="btn" href="#pillars">看玩法支柱</a>
-      <a class="btn ghost" href="#panorama">开发全景图</a>
+      <a class="btn" href="#demo">▶ 在线试玩切片</a>
+      <a class="btn ghost" href="#elements">看元素反应系统</a>
     </div>
   </div>
 </header>
 
 <div class="wrap">
   <div class="stats">
-    <div class="stat"><div class="n">63</div><div class="l">机器可读数据表</div></div>
+    <div class="stat"><div class="n">15</div><div class="l">元素反应</div></div>
+    <div class="stat"><div class="n">14</div><div class="l">构筑流派</div></div>
     <div class="stat"><div class="n">9</div><div class="l">难度档 · 50–90 分钟</div></div>
     <div class="stat"><div class="n">7×28</div><div class="l">Boss × 技能招式</div></div>
+    <div class="stat"><div class="n">63</div><div class="l">机器可读数据表</div></div>
     <div class="stat"><div class="n">144</div><div class="l">装备生成组合</div></div>
-    <div class="stat"><div class="n">14+5</div><div class="l">基础流派 + 反应包</div></div>
-    <div class="stat"><div class="n">1–4</div><div class="l">人数 · 生命锁定缩放</div></div>
   </div>
 </div>
+
+<section id="journey">
+  <div class="wrap">
+    <div class="sec-tag">A RUN, START TO FINISH</div>
+    <h2>一局的旅程</h2>
+    <p class="sec-lead">从整备到结算共 8 个阶段，主循环是"全图探索"与"Boss 战"的交替：探索期刷箱刷怪养构筑，Boss 期检验成色。</p>
+    <div class="journey">
+      <div class="stop"><span class="no">01</span><div class="t">整备大厅</div><div class="d">45 秒集合</div><div class="s">无职业/英雄选择，皮肤与难度在此定</div></div>
+      <div class="stop"><span class="no">02</span><div class="t">农民开局</div><div class="d">教学箱 + 三通道说明</div><div class="s">前 9 分钟为真实事件动作式引导</div></div>
+      <div class="stop"><span class="no">03</span><div class="t">全图探索</div><div class="d">主循环 · 占单局主体</div><div class="s">箱/怪/神兽/灵植持续随机刷新，九阶时间成长</div></div>
+      <div class="stop"><span class="no">04</span><div class="t">Boss 预警</div><div class="d">20 秒</div><div class="s">停刷新箱与神兽，队伍调整装备与站位</div></div>
+      <div class="stop"><span class="no">05</span><div class="t">Boss 战</div><div class="d">150 秒牌组</div><div class="s">超时判负且不掉装备——逼出走位与构筑解法</div></div>
+      <div class="stop"><span class="no">06</span><div class="t">战后恢复</div><div class="d">喘息与整理</div><div class="s">器灵自动合成，仓库整理，下一场准备</div></div>
+      <div class="stop"><span class="no">07</span><div class="t">胜利结算</div><div class="d">通关</div><div class="s">个人奖励按合格贡献发放，无尾刀归属</div></div>
+      <div class="stop"><span class="no">08</span><div class="t">失败结算</div><div class="d">团灭</div><div class="s">AFK/断线/重连等 7 条连续性策略兜底</div></div>
+    </div>
+  </div>
+</section>
 
 <section id="pillars">
   <div class="wrap">
@@ -129,12 +183,6 @@
     <h2>玩法支柱</h2>
     <p class="sec-lead">设计目标是"低操作门槛 + 高构筑深度"：会走位就能玩，理解元素反应才能上高难。</p>
     <div class="grid">
-      <div class="card">
-        <h3>元素精通 · 四阶成长</h3>
-        <p><span class="el-fire">火</span> <span class="el-ice">冰</span> <span class="el-poison">毒</span> <span class="el-bolt">电</span> 四系各有
-        <b>入灵 → 共鸣 → 显圣 → 神相</b>四阶。十二生肖分组提供 1–3 阶，四种灵植（烬心莲 / 月露兰 / 幽瘴藤 / 雷鸣竹）参与第 4 阶。</p>
-        <div><span class="em">6 双元素反应</span><span class="em">4 三元素</span><span class="em">1 四元素</span><span class="em">4 出血催化</span></div>
-      </div>
       <div class="card">
         <h3>无封顶数值路线</h3>
         <p>力/敏/智各 50 开局，30 级共 <b>1750 点</b>自由分配；狩印装备按合法击杀三维成长，三合一精确继承。
@@ -148,16 +196,16 @@
         <div><span class="em">5 种宝箱掉落 profile</span><span class="em">九阶时间成长</span></div>
       </div>
       <div class="card">
-        <h3>Boss 牌组时间线</h3>
-        <p>每位 Boss <b>150 秒牌组</b>调度，超时判负且不掉装备；28 招主参数（伤害/阶段/冷却/预警/几何/状态/反制）首轮数值齐备，
-        九难度用技能密度与预警下限规则缩放。</p>
-        <div><span class="em">7 Boss × 4 行为密度带 = 28 条时间线</span></div>
-      </div>
-      <div class="card">
         <h3>构筑自由度</h3>
         <p>近战 / 600 码远程、单重 / 双重 / 三重攻击形态、副击无 proc 边界清晰；
-        <b>14 条基础流派</b>（近战光环、远程元素、物理、生存）+ <b>5 个进阶反应包</b>。</p>
-        <div><span class="em">攻击形态由装备驱动</span><span class="em">平铺词条</span></div>
+        攻击形态由装备驱动，平铺词条不搞稀有度墙。</p>
+        <div><span class="em">14 条流派见下文</span></div>
+      </div>
+      <div class="card">
+        <h3>遭遇导演</h3>
+        <p>世界层怪群容量 + <b>4 档动态压力带</b>（按 20 秒窗口清怪速度升降档）+ 侵袭脉冲 + 编队生成 + 远怪回收——
+        怪潮是"被导演的"，不是无脑堆量。</p>
+        <div><span class="em">SPAWNING.md 独立数值文档</span></div>
       </div>
       <div class="card">
         <h3>器灵助手 · 友好体验</h3>
@@ -165,17 +213,150 @@
         AFK / 断线 / 重连 / 永久离开共 <b>7 条同步连续性策略</b>。</p>
         <div><span class="em">多人合格贡献者个人奖励</span><span class="em">无尾刀归属</span></div>
       </div>
+      <div class="card">
+        <h3>公平商业化</h3>
+        <p>皮肤为主 + 传承装备（输出预算 ≤15%）+ 公平分榜；事务与失败恢复有完整规范，
+        商业化时序：留存验证成立前不推付费。</p>
+        <div><span class="em">KK 存档/商城/事务规范齐备</span></div>
+      </div>
     </div>
+  </div>
+</section>
+
+<section id="elements">
+  <div class="wrap">
+    <div class="sec-tag">ELEMENTAL MASTERY</div>
+    <h2>元素与反应系统</h2>
+    <p class="sec-lead">四系元素各有<b>入灵 → 共鸣 → 显圣 → 神相</b>四阶；十二生肖按 3/3/3/3 分组提供 1–3 阶，
+    四种灵植参与第 4 阶。攻击命中叠加"暴露"层数，反应按层数门槛触发——这是整个构筑层的地基。</p>
+
+    <div class="grid sm zodiac" style="margin-bottom:34px">
+      <div class="card"><h3 class="el-fire">火</h3>
+        <p>鸡 · 马 · 虎 提供 1–3 阶</p>
+        <div class="tiers">4 阶灵植：<b>烬心莲</b></div></div>
+      <div class="card"><h3 class="el-ice">冰</h3>
+        <p>鼠 · 兔 · 牛 提供 1–3 阶</p>
+        <div class="tiers">4 阶灵植：<b>月露兰</b></div></div>
+      <div class="card"><h3 class="el-poison">毒</h3>
+        <p>羊 · 猪 · 蛇 提供 1–3 阶</p>
+        <div class="tiers">4 阶灵植：<b>幽瘴藤</b></div></div>
+      <div class="card"><h3 class="el-bolt">电</h3>
+        <p>狗 · 猴 · 龙 提供 1–3 阶</p>
+        <div class="tiers">4 阶灵植：<b>雷鸣竹</b></div></div>
+    </div>
+
+    <div class="rgroup">
+      <h3>双元素反应 <span>×6 · 构筑中期的主力输出与控制</span></h3>
+      <div class="rt">
+        <div class="rx"><span class="nm">温差裂变</span><span class="combo"><span class="el-fire">火</span>+<span class="el-ice">冰</span></span><span class="mech">范围爆发 + 裂温</span></div>
+        <div class="rx"><span class="nm">毒焰</span><span class="combo"><span class="el-fire">火</span>+<span class="el-poison">毒</span></span><span class="mech">死亡向 2 目标传播剩余 50%</span></div>
+        <div class="rx"><span class="nm">等离子灼痕</span><span class="combo"><span class="el-fire">火</span>+<span class="el-bolt">电</span></span><span class="mech">元素抗性 −10%</span></div>
+        <div class="rx"><span class="nm">腐霜</span><span class="combo"><span class="el-ice">冰</span>+<span class="el-poison">毒</span></span><span class="mech">迟缓强化</span></div>
+        <div class="rx"><span class="nm">霜雷麻痹</span><span class="combo"><span class="el-ice">冰</span>+<span class="el-bolt">电</span></span><span class="mech">普通目标麻痹 0.6 秒</span></div>
+        <div class="rx"><span class="nm">神经毒</span><span class="combo"><span class="el-poison">毒</span>+<span class="el-bolt">电</span></span><span class="mech">压缩毒跳但不复制总伤害</span></div>
+      </div>
+    </div>
+    <div class="rgroup">
+      <h3>三元素反应 <span>×4 · 进阶反应包的门槛奖励</span></h3>
+      <div class="rt">
+        <div class="rx"><span class="nm">极光熔断</span><span class="combo"><span class="el-fire">火</span><span class="el-ice">冰</span><span class="el-bolt">电</span></span><span class="mech">三元素范围反应</span></div>
+        <div class="rx"><span class="nm">炼狱毒雷</span><span class="combo"><span class="el-fire">火</span><span class="el-poison">毒</span><span class="el-bolt">电</span></span><span class="mech">3 次定向连锁并附半效毒焰</span></div>
+        <div class="rx"><span class="nm">腐霜蒸疫</span><span class="combo"><span class="el-fire">火</span><span class="el-ice">冰</span><span class="el-poison">毒</span></span><span class="mech">死亡生成疫雾</span></div>
+        <div class="rx"><span class="nm">神经冻蚀</span><span class="combo"><span class="el-ice">冰</span><span class="el-poison">毒</span><span class="el-bolt">电</span></span><span class="mech">脉冲迟缓</span></div>
+      </div>
+    </div>
+    <div class="rgroup">
+      <h3>四元素反应 <span>×1 · 终局构筑的目标</span></h3>
+      <div class="rt">
+        <div class="rx"><span class="nm">万象劫</span><span class="combo"><span class="el-fire">火</span><span class="el-ice">冰</span><span class="el-poison">毒</span><span class="el-bolt">电</span></span><span class="mech">消耗全部暴露；每目标 20 秒内置冷却</span></div>
+      </div>
+    </div>
+    <div class="rgroup">
+      <h3>出血催化 <span>×4 · 物理流的元素接口</span></h3>
+      <div class="rt">
+        <div class="rx"><span class="nm">焦灼伤口</span><span class="combo"><span class="el-fire">火</span></span><span class="mech">转化剩余出血 35%</span></div>
+        <div class="rx"><span class="nm">冻裂</span><span class="combo"><span class="el-ice">冰</span></span><span class="mech">消耗 2 层出血</span></div>
+        <div class="rx"><span class="nm">败血</span><span class="combo"><span class="el-poison">毒</span></span><span class="mech">两状态延长 2 秒且不超硬上限</span></div>
+        <div class="rx"><span class="nm">神经撕裂</span><span class="combo"><span class="el-bolt">电</span></span><span class="mech">立即结算一跳并传递 1 层</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="builds">
+  <div class="wrap">
+    <div class="sec-tag">BUILD ARCHETYPES</div>
+    <h2>14 条构筑流派</h2>
+    <p class="sec-lead">四族分明：贴身光环、远程元素、物理白字、生存辅助，外加一条"经济转型"流派——
+    每条都有首段发力点、后期目标、游走模式与 Boss 对策的完整定义。</p>
+    <div class="grid sm">
+      <div class="card"><h3>烬炉灼环</h3><p><span class="el-fire">火</span> · 近战光环 · 高频火环维持灼烧</p></div>
+      <div class="card"><h3>寒域铁壁</h3><p><span class="el-ice">冰</span> · 近战光环 · 冰甲贴群</p></div>
+      <div class="card"><h3>瘴环蚀行</h3><p><span class="el-poison">毒</span> · 近战光环 · 毒环游走</p></div>
+      <div class="card"><h3>雷域狂热</h3><p><span class="el-bolt">电</span> · 近战光环 · 攻速放电</p></div>
+      <div class="card"><h3>温差弩手</h3><p><span class="el-fire">火</span><span class="el-ice">冰</span> · 远程元素 · 温差裂变炮台</p></div>
+      <div class="card"><h3>毒焰猎手</h3><p><span class="el-fire">火</span><span class="el-poison">毒</span> · 远程元素 · 尸爆连锁</p></div>
+      <div class="card"><h3>等离子破甲手</h3><p><span class="el-fire">火</span><span class="el-bolt">电</span> · 远程元素 · 削抗辅助</p></div>
+      <div class="card"><h3>腐霜守望</h3><p><span class="el-ice">冰</span><span class="el-poison">毒</span> · 远程元素 · 迟缓控场</p></div>
+      <div class="card"><h3>霜雷游侠</h3><p><span class="el-ice">冰</span><span class="el-bolt">电</span> · 远程元素 · 麻痹点杀</p></div>
+      <div class="card"><h3>神经毒针</h3><p><span class="el-poison">毒</span><span class="el-bolt">电</span> · 远程元素 · 压缩毒跳</p></div>
+      <div class="card"><h3>血钢狂战</h3><p>物理 · 白字近战 · 出血为食</p></div>
+      <div class="card"><h3>分击猎潮</h3><p>物理 · 多重攻击 · 清群特化</p></div>
+      <div class="card"><h3>回生灵护</h3><p><span class="el-ice">冰</span> · 生存辅助 · 团队续航</p></div>
+      <div class="card"><h3>破匣巡游</h3><p>经济转型 · 开局拾荒发育 · 后期转正输出</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="difficulty">
+  <div class="wrap">
+    <div class="sec-tag">DIFFICULTY LADDER</div>
+    <h2>九档难度阶梯</h2>
+    <p class="sec-lead">逐档解锁；时长、Boss 场次与目标数值同步爬升。终局主属性是<b>目标区间而非封顶</b>——
+    难 1 数千即可通关，难 9 典型 10 万且允许继续超出。</p>
+    <div class="tbl">
+      <table>
+        <tr><th>难度</th><th>单局时长</th><th>Boss 场次</th><th>终局主属性区间</th></tr>
+        <tr><td>一 · 初生</td><td class="num">50 分钟</td><td class="num">4</td><td class="num">3,000 – 6,000</td></tr>
+        <tr><td>二 · 微光</td><td class="num">50 分钟</td><td class="num">4</td><td class="num">5,000 – 10,000</td></tr>
+        <tr><td>三 · 猎境</td><td class="num">55 分钟</td><td class="num">5</td><td class="num">8,000 – 15,000</td></tr>
+        <tr><td>四 · 共鸣</td><td class="num">60 分钟</td><td class="num">5</td><td class="num">14,000 – 25,000</td></tr>
+        <tr><td>五 · 灾变</td><td class="num">65 分钟</td><td class="num">6</td><td class="num">22,000 – 38,000</td></tr>
+        <tr><td>六 · 圣痕</td><td class="num">70 分钟</td><td class="num">6</td><td class="num">32,000 – 55,000</td></tr>
+        <tr><td>七 · 天劫</td><td class="num">75 分钟</td><td class="num">6</td><td class="num">45,000 – 75,000</td></tr>
+        <tr><td>八 · 无相</td><td class="num">80 分钟</td><td class="num">7</td><td class="num">60,000 – 95,000</td></tr>
+        <tr><td>九 · 终境</td><td class="num">90 分钟</td><td class="num">7</td><td class="num">80,000 – 120,000</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="bosses">
+  <div class="wrap">
+    <div class="sec-tag">BOSS ROSTER</div>
+    <h2>七位 Boss</h2>
+    <p class="sec-lead">单局按难度调度 4–7 场；每位 Boss 是一条 <b>150 秒技能牌组时间线</b>（超时判负且不掉装备），
+    共 28 招，每招有伤害/阶段/冷却/预警/几何/状态/反制的首轮数值，九难度用技能密度与预警下限缩放。</p>
+    <div class="bosses">
+      <div class="card boss"><div class="t"><h3>锁匣监工</h3></div><p>第一位考官：走位与仇恨入门</p></div>
+      <div class="card boss"><div class="t"><h3>熔霜双极体</h3></div><p>冰火双形态，元素抗性切换考验</p></div>
+      <div class="card boss"><div class="t"><h3>瘴雷编织者</h3></div><p>毒电交织的场地污染战</p></div>
+      <div class="card boss"><div class="t"><h3>镜痕铸像</h3></div><p>中段分水岭，机制组合升级</p></div>
+      <div class="card boss"><div class="t"><h3>十二印狱主</h3></div><p>主题 Boss：十二生肖印记的压迫考验</p></div>
+      <div class="card boss"><div class="t"><h3>四极裁决者</h3></div><p>四元素全抗的终局检查站</p></div>
+      <div class="card boss"><div class="t"><h3>无相藏主</h3></div><p>最终藏主：全机制收官</p></div>
+    </div>
+    <p class="pano-note" style="margin-top:14px">注：Boss 一句话定位为分享页概括，严谨数值以 data/ 下 5 张 Boss 数据表为准。</p>
   </div>
 </section>
 
 <section id="balance">
   <div class="wrap">
-    <div class="sec-tag">AUDITABLE BALANCE</div>
-    <h2>数值可审计，不是拍脑袋</h2>
-    <p class="sec-lead">全部平衡数据落在 63 张 CSV 数据表中（Boss 数值、掉落、怪群、装备、难度曲线均可独立替换），
-    由 <b>audit_balance.py</b> 静态审计阶段自动检查——这是"设计完成"与"设计可信"之间的桥。</p>
-    <div class="tbl">
+    <div class="sec-tag">AUDITABLE DESIGN</div>
+    <h2>数值可审计，文档分层各有事实源</h2>
+    <p class="sec-lead">全部平衡落在 63 张机器可读 CSV 中，由 <b>audit_balance.py</b> 静态审计自动检查；
+    文档体系按"产品 → 玩法 → 数值 → 机制"分层，每层一份唯一事实源。</p>
+    <div class="tbl" style="margin-bottom:30px">
       <table>
         <tr><th>审计维度</th><th>检查内容</th></tr>
         <tr><td>掉落</td><td>引用完整性、品质期望、五箱型保证路径可生成性</td></tr>
@@ -185,6 +366,27 @@
         <tr><td>连续性</td><td>AFK / 恢复 / 断线 / 重连 / 永久离开 / 全员离开 7 条策略</td></tr>
         <tr><td>成长</td><td>神兽 1–4 人生命锁定缩放、关键 TTK 检查点</td></tr>
       </table>
+    </div>
+    <div class="grid">
+      <div class="card"><h3>PRD · 产品层</h3><p>可量化目标（切片期第二局率 ≥30% / 通关率 ≥60%；首发 3 月回访 ≥25% / 车队占比 ≥15% / 付费渗透 ≥3%）、留存漏斗埋点、商业化时序。</p></div>
+      <div class="card"><h3>game-design · 玩法层</h3><p>完整玩法、元素反应、生肖、装备与留存的规则正文；另有 requirements / technical-design / map-layout / commercialization / test-plan / editor-actions。</p></div>
+      <div class="card"><h3>NUMERICS · 数值层</h3><p>七条数值不变量、四侧公式体系、九档难度总表、校准锚点，以及"症状 → 动哪张表 → 风险"的调参旋钮表与数值变更流程。</p></div>
+      <div class="card"><h3>SPAWNING · 遭遇导演</h3><p>世界层容量、4 档动态压力带升降档规则、侵袭脉冲、编队生成与远怪回收——怪潮的完整调度规范。</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="wrap">
+    <div class="sec-tag">PLAYABLE SLICE</div>
+    <h2>不止是纸面设计</h2>
+    <div class="demo">
+      <h3>▶ 15 分钟可玩垂直切片（Web 版）</h3>
+      <p>用 Web 技术实现的垂直切片，已把核心循环跑通：无伤闪烁、砸箱掉落、神兽养成、<b>温差裂变</b>等元素反应、
+      装备三合一、Boss 护箱战、遭遇导演压力带全部可玩。数值取自正式 CSV（切片内怪物生命已按原型节奏校准）。
+      在线版即开即玩，无需安装任何东西。</p>
+      <p style="margin-top:10px;font-size:13px;color:var(--tx3)">说明：这是技术验证原型（非 War3 引擎），用于验证设计与数值手感；曾通过 840 只同屏怪 60fps 压力测试。</p>
+      <a class="btn" href="demo.html">打开切片 · 立即试玩</a>
     </div>
   </div>
 </section>
@@ -205,8 +407,8 @@
     <div style="margin-top:26px" class="status-box ok-box">
       <h3>当前真实状态（如实声明）</h3>
       <p>本页描述的是<b>设计完整、静态验证的编辑器实施包（模式 C）</b>：玩法设计、机器可读配置、技术规格、
-      编辑器动作单与验收矩阵已齐备并通过项目校验门禁。<b>尚未生成 .w3x/.w3m，尚未实机可玩</b>——
-      这是刻意的诚实边界：没有构建、重开、多人与 KK Maptest 证据，就不声称"可玩"。</p>
+      编辑器动作单与验收矩阵已齐备并通过项目校验门禁；上方切片为 Web 技术验证原型。
+      <b>War3 正式版尚未生成 .w3x/.w3m、尚未实机可玩</b>——这是刻意的诚实边界：没有构建、重开、多人与 KK Maptest 证据，就不声称"可玩"。</p>
     </div>
     <div class="status-box">
       <h3>通往可玩的 P0 路线（当前阻塞）</h3>
@@ -529,7 +731,7 @@
       <div>灵匣十二兽 · elemental-zodiac-chest</div>
       <div class="kv"><b>版本</b> v0.4.1（G2 系统设计与数据契约完成，等待 G3 垂直切片）</div>
       <div class="kv"><b>目标平台</b> KK · YDWE/KKWE · Lua/GUI 混合后端</div>
-      <div class="kv"><b>状态声明</b> 静态验证的编辑器实施包（尚不可玩）</div>
+      <div class="kv"><b>状态声明</b> 静态验证的编辑器实施包 + Web 技术验证切片（War3 正式版尚不可玩）</div>
     </div>
     <div>
       <div>本页为项目分享主页（单文件 · 零依赖）</div>
